@@ -4,7 +4,7 @@ import { Payment } from './entities/payment.entity';
 import { PaymentAttempt } from './entities/payment-attempt.entity';
 import { PaymentService } from './services/payment.service';
 import { PaymentController } from './controllers/payment.controller';
-import { MockPaymentGatewayService } from './services/mock-payment-gateway.service'; // Import the service
+import { MockPaymentGatewayService } from './services/mock-payment-gateway.service';
 
 @Module({
   imports: [
@@ -21,6 +21,6 @@ import { MockPaymentGatewayService } from './services/mock-payment-gateway.servi
     TypeOrmModule.forFeature([Payment, PaymentAttempt]),
   ],
   controllers: [PaymentController],
-  providers: [PaymentService, MockPaymentGatewayService], // Add MockPaymentGatewayService as a provider
+  providers: [PaymentService, MockPaymentGatewayService],
 })
 export class AppModule {}

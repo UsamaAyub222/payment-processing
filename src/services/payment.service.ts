@@ -1,9 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Payment } from '../entities/payment.entity'; // Correct path
-import { PaymentAttempt } from '../entities/payment-attempt.entity'; // Correct path
-import { MockPaymentGatewayService } from './mock-payment-gateway.service'; // Correct path
+import { Payment } from '../entities/payment.entity';
+import { PaymentAttempt } from '../entities/payment-attempt.entity';
+import { MockPaymentGatewayService } from './mock-payment-gateway.service';
 
 @Injectable()
 export class PaymentService {
@@ -14,7 +14,7 @@ export class PaymentService {
     private paymentRepository: Repository<Payment>,
     @InjectRepository(PaymentAttempt)
     private attemptRepository: Repository<PaymentAttempt>,
-    private mockPaymentGateway: MockPaymentGatewayService, // Inject the service
+    private mockPaymentGateway: MockPaymentGatewayService,
   ) {}
 
   async processPayment(orderId: string, amount: number): Promise<any> {
@@ -23,18 +23,16 @@ export class PaymentService {
     await queryRunner.startTransaction();
   
     try {
-      // Check for existing payment
       let payment = await queryRunner.manager.findOne(Payment, { where: { order_id: orderId } });
   
       if (!payment) {
-        payment = new Payment(); // Initialize the Payment entity
+        payment = new Payment();
         payment.order_id = orderId;
         payment.amount = amount;
         payment.status = 'pending';
         await queryRunner.manager.save(Payment, payment);
       }
   
-      // Process payment with retries
       const result = await this.retryPayment(payment, queryRunner);
   
       await queryRunner.commitTransaction();

@@ -24,7 +24,7 @@ This project implements a payment processing workflow with retries, idempotency,
 ## How to Run
 1. Clone the Repository:
    ```bash
-   git clone https://github.com/your-username/nestjs-analytics.git
+   git clone https://github.com/UsamaAyub222/payment-processing.git
    cd nestjs-payment
   ```
 2. Start Docker containers: `docker-compose up --build`.
