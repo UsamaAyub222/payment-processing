@@ -1,0 +1,27 @@
+# version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nest_payments
+      MYSQL_USER: nest
+      MYSQL_PASSWORD: nest
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+  app:
+    build: .
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: nest
+      DB_PASSWORD: nest
+      DB_NAME: nest_payments
+    depends_on:
+      - mysql
+    ports:
+      - '3000:3000'
+volumes:
+  mysql_data:
